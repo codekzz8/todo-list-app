@@ -8,19 +8,16 @@ import (
 )
 
 type Todo struct {
-	Title       string
-	Completed   bool
-	CreatedAt   time.Time
-	CompletedAt *time.Time
+	Title     string
+	Completed bool
+	CreatedAt time.Time
 }
 
 func NewTodo(title string) Todo {
 	return Todo{
-		Title:       title,
-		Completed:   false,
-		CreatedAt:   time.Now(),
-		CompletedAt: nil,
-	}
+		Title:     title,
+		Completed: false,
+		CreatedAt: time.Now()}
 }
 
 type TodoList []Todo
@@ -30,33 +27,31 @@ func (list *TodoList) Add(title string) {
 	*list = append(*list, item)
 }
 
-func (list *TodoList) Remove(index int) {
+func (list *TodoList) Remove(index int) error {
 	listPointer := *list
 	err := listPointer.validateIndex(index)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return err
 	}
 	*list = slices.Delete(listPointer, index, index+1)
+	return nil
 }
 
-func (list *TodoList) Edit(index int, title string) {
+func (list *TodoList) Edit(index int, title string) error {
 	listValue := *list
 	err := listValue.validateIndex(index)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return err
 	}
 	listValue[index].Title = title
+	return nil
 }
 
 func (list *TodoList) List() {
 	for index, item := range *list {
-		completedAt := ""
-		if item.CompletedAt != nil {
-			completedAt = item.CompletedAt.Format(time.DateTime)
-		}
-		fmt.Printf("- %d: %s, %t, %s, %s\n", index, item.Title, item.Completed, item.CreatedAt.Format(time.DateTime), completedAt)
+		fmt.Printf("- %d: %s, %t, %s\n", index, item.Title, item.Completed, item.CreatedAt.Format(time.DateTime))
 	}
 }
 
