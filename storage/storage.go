@@ -26,12 +26,24 @@ func (storage *Storage) Save(data todo.TodoList) error {
 }
 
 func (storage *Storage) Load(fileData *todo.TodoList) error {
+	initializeFile(storage.FileName)
+
 	data, err := os.ReadFile(storage.FileName)
 	if err != nil {
-		// file was not yet created, but it will be after writting the list to it for the first time
-		// or, worst case scenario, an actual IO exception occured, in which case, unlucky
+		fmt.Println("Error reading todo items file")
 		return err
 	}
 
 	return json.Unmarshal(data, &fileData)
+}
+
+func initializeFile(fileName string) {
+	if _, err := os.Stat(fileName); os.IsNotExist(err) {
+		// todoItems.json does not exist, create it
+		file, err := os.Create(fileName)
+		if err != nil {
+			fmt.Println("Error creating todo list file")
+		}
+		defer file.Close()
+	}
 }
