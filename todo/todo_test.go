@@ -28,7 +28,7 @@ func TestEditShouldEditItemTitle(t *testing.T) {
 	err := todos.Edit(0, "new title")
 
 	if err != nil {
-		t.Errorf("Error was thrown but was not expected\nMessage: %s", err.Error())
+		t.Errorf("Error was thrown but it was not expected\nMessage: %s", err.Error())
 	}
 	assertField(t, "Title", expectedTitle, todos[0].Title)
 }
