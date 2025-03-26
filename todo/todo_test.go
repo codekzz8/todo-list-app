@@ -56,10 +56,10 @@ func TestRemoveShouldRemoveItem(t *testing.T) {
 
 	err := todos.Remove(0)
 	if err != nil {
-		t.Errorf("Error was thrown but was not expected\nMessage: %s", err.Error())
+		t.Errorf("Error was cast but was not expected\nMessage: %s", err.Error())
 	}
 	if len(todos) > 0 {
-		t.Errorf("Expected length of list to be 0 but was %d", len(todos))
+		t.Errorf("Expected length of the list to be 0 but it was %d", len(todos))
 	}
 }
 
